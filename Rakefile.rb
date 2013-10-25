@@ -168,6 +168,8 @@ task :disconnect_network_drive do
 end
 
 task :gittask do
+  puts 'adding'
+  `git add -A` 
   v = SemVer.find
   if `git tag`.split("\n").include?("#{v.to_s}")
 	raise "Version #{v.to_s} has already been released! You cannot release it twice."
