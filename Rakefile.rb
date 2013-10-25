@@ -43,7 +43,7 @@ msbuild :msbuild do |msb|
   msb.targets    :Clean, :Build
 end
 
-desc "Publish the web site" #DE FUNKAR JU
+desc "Publish the web site" #DET FUNKAR JU
 msbuild :publish do |msb|
   msb.properties :Configuration => CONFIGURATION
   msb.targets :Clean, :Build
@@ -177,10 +177,9 @@ task :gittask do
   puts 'tagging'
   `git tag #{v.to_s}`
   puts 'pushing'
-  `git push origin master` #ska de va master här?
 end
 
-task :release => [] # JOBBA VIDARE HÄR
+task :release => ["env:release", :msbuild, :output, :gittask] # JOBBA VIDARE HÄR
 task :output => [:peds_output]
 task :deploy_it => [:peds_zip, :copy_artifact, :map_network_drive, :find_version_number, :zip_copy_backup, :copy_artifact_for_deployment, :deploy_content, :remove_temp_artifact, :disconnect_network_drive]
 task :default  => ["env:release", "env:dev", "assemblyinfo", "msbuild", "output", "deploy_it", "publish"]
