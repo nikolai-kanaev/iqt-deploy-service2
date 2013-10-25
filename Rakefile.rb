@@ -177,6 +177,7 @@ task :gittask do
   puts 'tagging'
   `git tag #{v.to_s}`
   puts 'pushing'
+  `git push`
 end
 
 task :release => ["env:release", :msbuild, :output, :gittask] # JOBBA VIDARE HÄR
