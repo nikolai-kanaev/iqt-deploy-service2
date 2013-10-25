@@ -28,7 +28,7 @@ namespace iqt_deploy_service2
     public class CompositeType
     {
         bool boolValue = true;
-        string stringValue = "Hello ";
+        string stringValue = "What's going on here!? ";
 
         [DataMember]
         public bool BoolValue
