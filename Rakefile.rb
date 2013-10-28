@@ -123,7 +123,7 @@ task :find_version_number do
       ENV['VERSION_NUMBER'] = node.attr('buildVersion')
 	  f.close
     rescue
-      ENV['VERSION_NUMBER'] = '3232'
+      ENV['VERSION_NUMBER'] = '0'
     end
   else
     ENV['VERSION_NUMBER'] = '0'
@@ -137,7 +137,6 @@ zip :zip_copy_backup do |zip|
   backupfolder = File.join(File.dirname(ENV['ENV_BACKUPNETWORKSHARELOCALNAME']), "/backups/")
   FileUtils.mkdir backupfolder if File.directory?(backupfolder) == false
   zip.directories_to_zip File.join(File.dirname(ENV['ENV_DEPLOYNETWORKSHARELOCALNAME'] + "/"), "iqt-deploy-service")
-  #zip.directories_to_zip File.dirname(ENV['ENV_DEPLOYNETWORKSHARELOCALNAME'] + "/iqt-deploy-service")
   zip.output_file = 'iqt-deploy-service.' + ENV['VERSION_NUMBER'] + '.zip'
   zip.output_path = backupfolder
 end
