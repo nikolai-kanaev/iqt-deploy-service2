@@ -1,0 +1,92 @@
+---
+dev:
+  connectionstrings: |
+    <add name="InspectionContext" 
+    providerName="System.Data.SqlClient" 
+    connectionString="Data Source=SEPITAB01;Initial Catalog=IQT_Inspections;UID=dbWebUser;Password=kPCDr0Xcl9lkFFGOHdZ5;Trusted_Connection=false;MultipleActiveResultSets=True;" />
+    
+    <add name="MaintenanceContext" 
+    providerName="System.Data.SqlClient" 
+    connectionString="Data Source=SEPITAB01;Initial Catalog=IQT_Maintenance;UID=dbWebUser;Password=kPCDr0Xcl9lkFFGOHdZ5;Trusted_Connection=false;MultipleActiveResultSets=True;" />
+  user: tuser.ow
+  password: tuser1
+  iqt_username: iqt_user
+  iqt_password: Tablet79!
+  inspectionimagespath: C:\www\IQT\Images\
+  allowtempgenerations: True
+  multiplesitebindingsenabled: true
+  services: |
+    <service behaviorConfiguration="Interfleet.SE.ESB.Services.GeneralServiceBehavior" name="Interfleet.IQT.Services.InspectionService">
+        <endpoint address="" binding="wsHttpBinding" bindingConfiguration="TransportSecurity" contract="Interfleet.IQT.Services.InspectionService">
+          <identity>
+            <dns value="localhost" />
+          </identity>
+        </endpoint>
+        <endpoint address="mex" binding="mexHttpsBinding" contract="IMetadataExchange" />
+    </service>
+    
+    <service behaviorConfiguration="Interfleet.SE.ESB.Services.GeneralServiceBehavior" name="Interfleet.IQT.Services.IntegrationService">
+        <endpoint address="" binding="wsHttpBinding" bindingConfiguration="TransportSecurity" contract="Interfleet.IQT.Services.IntegrationService">
+          <identity>
+            <dns value="localhost" />
+          </identity>
+        </endpoint>
+        <endpoint address="mex" binding="mexHttpsBinding" contract="IMetadataExchange" />
+    </service>
+    
+    <service behaviorConfiguration="Interfleet.SE.ESB.Services.GeneralServiceBehavior" name="Interfleet.IQT.Services.MaintenanceService">
+        <endpoint address="" binding="wsHttpBinding" bindingConfiguration="TransportSecurity" contract="Interfleet.IQT.Services.MaintenanceService">
+          <identity>
+            <dns value="localhost" />
+          </identity>
+        </endpoint>
+        <endpoint address="mex" binding="mexHttpsBinding" contract="IMetadataExchange" />
+    </service>
+    
+    <service behaviorConfiguration="Interfleet.SE.ESB.Services.GeneralServiceBehavior" name="Interfleet.IQT.Services.ReportService">
+        <endpoint address="" binding="wsHttpBinding" bindingConfiguration="TransportSecurity" contract="Interfleet.IQT.Services.ReportService">
+          <identity>
+            <dns value="localhost" />
+          </identity>
+        </endpoint>
+        <endpoint address="mex" binding="mexHttpsBinding" contract="IMetadataExchange" />
+    </service>
+    
+    <service behaviorConfiguration="Interfleet.SE.ESB.Services.GeneralServiceBehavior" name="Interfleet.IQT.Services.InspectionProjectService">
+        <endpoint address="" binding="wsHttpBinding" bindingConfiguration="TransportSecurity" contract="Interfleet.IQT.Services.InspectionProjectService">
+          <identity>
+            <dns value="localhost" />
+          </identity>
+        </endpoint>
+        <endpoint address="mex" binding="mexHttpsBinding" contract="IMetadataExchange" />
+    </service>
+  servicebehaviors: |
+    <behavior name="Interfleet.SE.ESB.Services.GeneralServiceBehavior">
+          <dataContractSerializer maxItemsInObjectGraph="355360" />
+          <serviceMetadata httpGetEnabled="false" httpsGetEnabled="true" httpsGetUrl="" />
+          <serviceDebug includeExceptionDetailInFaults="true" />
+    </behavior>
+  bindings: |
+    <binding name="TransportSecurity" closeTimeout="00:01:00"
+    			openTimeout="00:01:00" receiveTimeout="00:10:00" sendTimeout="00:01:00"
+    			bypassProxyOnLocal="false" transactionFlow="false" hostNameComparisonMode="StrongWildcard"
+    			maxBufferPoolSize="2000000" maxReceivedMessageSize="2000000"
+    			messageEncoding="Text" textEncoding="utf-8" useDefaultWebProxy="true" allowCookies="false">
+    <readerQuotas maxDepth="2000000" maxStringContentLength="2000000" maxArrayLength="2000000"
+      			maxBytesPerRead="2000000" maxNameTableCharCount="2000000" />
+        	<security mode="Transport">
+            		<transport clientCredentialType="None" />
+        	</security>
+    </binding>
+    
+    <binding name="WSHttpBinding_IReportedDefects" maxReceivedMessageSize="200000000" maxBufferPoolSize="200000000">
+            <security mode="Transport" />
+    </binding>  
+  endpoint: |
+    <endpoint address="https://test-services-new.interfleet.se/ReportedDefects.svc" binding="wsHttpBinding"
+          bindingConfiguration="WSHttpBinding_IReportedDefects" contract="ESB.ReportedDefects.IReportedDefects"
+          name="WSHttpBinding_IReportedDefects">
+          <identity>
+            <dns value="localhost" />
+          </identity>
+        </endpoint>

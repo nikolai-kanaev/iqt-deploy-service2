@@ -8,6 +8,7 @@ require 'rake/clean'
 require 'semver'
 require 'nokogiri'
 
+require 'buildscripts/morph'
 require 'buildscripts/utils'
 require 'buildscripts/paths'
 require 'buildscripts/project_details'
@@ -54,6 +55,13 @@ msbuild :publish do |msb|
   msb.solution = FILES[:sln]
 end
 
+morph :app_morph do |m|
+  YAML::ENGINE.yamler = "psych"
+  settings = YAML.load(File.open(File.join('src', 'Deployment', 'webconfig.yml')))
+  m.template = "src/Deployment/web.erb.config"
+  m.output = "src/iqt-deploy-service2/Web.config"
+  m.settings settings[ENV_TARGET]
+end
 
 task :peds_output => [:msbuild] do
   target = File.join(FOLDERS[:binaries], PROJECTS[:peds][:id])
@@ -182,7 +190,7 @@ task :gittask do
   `git push`
 end
 
-task :release => ["env:release", :msbuild, :output, :gittask] # JOBBA VIDARE HÄR
+task :release => ["env:release", :app_morph, :msbuild, :output, :gittask] # JOBBA VIDARE HÄR
 task :output => [:peds_output]
 task :deploy_it => [:peds_zip, :copy_artifact, :map_network_drive, :find_version_number, :zip_copy_backup, :copy_artifact_for_deployment, :deploy_content, :remove_temp_artifact, :disconnect_network_drive]
 task :default  => ["env:release", :assemblyinfo, :msbuild, :output, :deploy_it, :publish]
