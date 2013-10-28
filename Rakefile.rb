@@ -136,8 +136,8 @@ zip :zip_copy_backup do |zip|
   puts "zipping service and moving it to backup folder"
   backupfolder = File.join(File.dirname(ENV['ENV_BACKUPNETWORKSHARELOCALNAME']), "/backups/")
   FileUtils.mkdir backupfolder if File.directory?(backupfolder) == false
-  #zip.directories_to_zip File.join(File.dirname(ENV['ENV_DEPLOYNETWORKSHARELOCALNAME'] + "/"), "/", ENV['ENV_DEPLOYMENTFOLDER'], "/iqt-deploy-service")
-  zip.directories_to_zip File.dirname(ENV['ENV_DEPLOYNETWORKSHARELOCALNAME'] + "/iqt-deploy-service")
+  zip.directories_to_zip File.join(File.dirname(ENV['ENV_DEPLOYNETWORKSHARELOCALNAME'] + "/"), "iqt-deploy-service")
+  #zip.directories_to_zip File.dirname(ENV['ENV_DEPLOYNETWORKSHARELOCALNAME'] + "/iqt-deploy-service")
   zip.output_file = 'iqt-deploy-service.' + ENV['VERSION_NUMBER'] + '.zip'
   zip.output_path = backupfolder
 end
